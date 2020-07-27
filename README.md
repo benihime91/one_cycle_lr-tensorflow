@@ -1,4 +1,4 @@
-# Tensorflow Keras notebooks
+# Tensorflow on `Steroids` : 
 
 > This repo contains some `crazy` and `unorthodox` things that i have tried implementing in `Tensorflow 2`.
  
