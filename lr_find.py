@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
-from tqdm.notebook import tqdm
+from tqdm.auto import tqdm
 import tempfile
 import matplotlib.pyplot as plt
 import os
