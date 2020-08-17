@@ -1,4 +1,4 @@
-# Tensorflow on `Steroids` : 
+# tensorflow-on-steroids : 
 
 ## This repo contains the following:  
 
