@@ -17,8 +17,7 @@
 ![Lr_finder Plot](vis/lr_finder_plot_1.png)
 ![Lr_finder Plot](vis/lr_finder_plot_2.png)
 
-> ### `NB:` 
-To check the usage of `lr_find` & `OneCycleLR` check this [notebook](https://github.com/benihime91/tensorflow-keras-nbs/blob/master/one_cycle_%26_lr_finder_tf.ipynb).  
+**NB: To check the usage of `lr_find` & `OneCycleLR` check this [notebook](https://github.com/benihime91/tensorflow-keras-nbs/blob/master/one_cycle_%26_lr_finder_tf.ipynb).** 
 
 3. Example on how to use `Albumentations` for `image augmentation` with `Tensorflow's` `tf.data` API  
 > Check this [notebook](https://github.com/benihime91/tensorflow-keras-nbs/blob/master/albumentations_with_tensorflow.ipynb)   
