@@ -70,7 +70,8 @@ lr_find.plot_lrs(skip_end=0, suggestion=True)
 ```
 ![Lr_finder Plot](vis/lr_finder_plot_2.png)
 
-**NB: To check the usage of `lr_find` & `OneCycleLR` check this [notebook](https://github.com/benihime91/tensorflow-on-steroids/blob/master/nbs/one_cycle_%26_lr_finder_tf.ipynb).  
+**NB:  
+To check the usage of `lr_find` & `OneCycleLR` check this [notebook](https://github.com/benihime91/tensorflow-on-steroids/blob/master/nbs/one_cycle_%26_lr_finder_tf.ipynb).  
 This notebook contains an end-to-end example using the `cats-vs-dogs` dataset from `Kaggle`** 
 
 3. Example on how to use `Albumentations` for `image augmentation` with `Tensorflow's` `tf.data` API  
