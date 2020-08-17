@@ -74,7 +74,11 @@ lr_find.plot_lrs(skip_end=0, suggestion=True)
 To check the usage of `lr_find` & `OneCycleLR` check this [notebook](https://github.com/benihime91/tensorflow-on-steroids/blob/master/nbs/one_cycle_%26_lr_finder_tf.ipynb).  
 This notebook contains an end-to-end example using the `cats-vs-dogs` dataset from `Kaggle`** 
 
-3. Example on how to use `Albumentations` for `image augmentation` with `Tensorflow's` `tf.data` API  
-   - Check this [notebook](https://github.com/benihime91/tensorflow-on-steroids/blob/master/nbs/albumentations_with_tensorflow.ipynb)   
+### <ins>Extra</ins> <ins>perks</ins> :
+Example on how to use `Albumentations` for `image augmentation` with `Tensorflow's` `tf.data` API  
+* Check this [notebook](https://github.com/benihime91/tensorflow-on-steroids/blob/master/nbs/albumentations_with_tensorflow.ipynb).  
+* Google Collab Notebook [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albumentations-team/albumentations_examples/blob/colab/tensorflow-example.ipynb).  
+
+
 There are some issues though with this implementation. Please check [this](https://github.com/albumentations-team/albumentations/issues/669#issuecomment-664422245).
 Tried my best to showcase the examples where this is gonna work and not work.
