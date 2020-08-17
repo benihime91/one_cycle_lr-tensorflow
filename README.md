@@ -14,7 +14,7 @@
    - Ideas taken from [How Do You Find A Good Learning Rate](https://sgugger.github.io/how-do-you-find-a-good-learning-rate.html).
    - [My Version](https://github.com/benihime91/tensorflow-keras-nbs/blob/master/lr_find.py). 
 
-> To check the usage of the above mentioned functionalities check this [notebook](https://github.com/benihime91/tensorflow-keras-nbs/blob/master/one_cycle_%26_lr_finder_tf.ipynb).  
+> To check the usage of `lr_find` & `OneCycleLR` check this [notebook](https://github.com/benihime91/tensorflow-keras-nbs/blob/master/one_cycle_%26_lr_finder_tf.ipynb).  
 
 ![Lr_finder Plot](vis/lr_finder_plot_1.png)
 ![Lr_finder Plot](vis/lr_finder_plot_2.png)
