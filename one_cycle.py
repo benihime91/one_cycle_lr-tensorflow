@@ -6,6 +6,7 @@ import numpy as np
 
 K = keras.backend
 
+
 class OneCycleLr(keras.callbacks.Callback):
     """
     Sets the learning rate of each parameter group according to the
@@ -73,21 +74,22 @@ class OneCycleLr(keras.callbacks.Callback):
             min_lr = initial_lr/final_div_factor
             Default: 1e4
     """
+
     def __init__(self,
-                 max_lr:float,
-                 total_steps:int=None,
-                 epochs:int=None,
-                 steps_per_epoch:int=None,
-                 pct_start:float=0.3,
-                 anneal_strategy:str="cos",
-                 cycle_momentum:bool=True,
-                 base_momentum:float=0.85,
-                 max_momentum:float=0.95,
-                 div_factor:float=25.,
-                 final_div_factor:float=1e4) -> None:
-        
+                 max_lr: float,
+                 total_steps: int = None,
+                 epochs: int = None,
+                 steps_per_epoch: int = None,
+                 pct_start: float = 0.3,
+                 anneal_strategy: str = "cos",
+                 cycle_momentum: bool = True,
+                 base_momentum: float = 0.85,
+                 max_momentum: float = 0.95,
+                 div_factor: float = 25.,
+                 final_div_factor: float = 1e4) -> None:
+
         super(OneCycleLr, self).__init__()
-        
+
         # validate total steps:
         if total_steps is None and epochs is None and steps_per_epoch is None:
             raise ValueError(
@@ -139,16 +141,16 @@ class OneCycleLr(keras.callbacks.Callback):
         self.track_lr = []
         self.track_mom = []
 
-    def _annealing_cos(self, start, end, pct)->float:
+    def _annealing_cos(self, start, end, pct) -> float:
         "Cosine anneal from `start` to `end` as pct goes from 0.0 to 1.0."
         cos_out = math.cos(math.pi * pct) + 1
         return end + (start - end) / 2.0 * cos_out
 
-    def _annealing_linear(self, start, end, pct)->float:
+    def _annealing_linear(self, start, end, pct) -> float:
         "Linearly anneal from `start` to `end` as pct goes from 0.0 to 1.0."
         return (end - start) * pct + start
 
-    def set_lr_mom(self)->None:
+    def set_lr_mom(self) -> None:
         """Update the learning rate and momentum"""
         if self.step_num <= self.step_size_up:
             # update learining rate
@@ -161,31 +163,43 @@ class OneCycleLr(keras.callbacks.Callback):
                 computed_momentum = self.anneal_func(self.m_momentum,
                                                      self.b_momentum,
                                                      self.step_num/self.step_size_up)
-                try:     K.set_value(self.model.optimizer.momentum, computed_momentum)
-                except:  K.set_value(self.model.optimizer.beta_1, computed_momentum)
+                try:
+                    K.set_value(self.model.optimizer.momentum,
+                                computed_momentum)
+                except:
+                    K.set_value(self.model.optimizer.beta_1, computed_momentum)
         else:
             down_step_num = self.step_num - self.step_size_up
             # update learning rate
-            computed_lr = self.anneal_func(self.max_lr, self.min_lr, down_step_num/self.step_size_down)
+            computed_lr = self.anneal_func(
+                self.max_lr, self.min_lr, down_step_num/self.step_size_down)
             K.set_value(self.model.optimizer.lr, computed_lr)
             # update momentum if cycle_momentum
             if self.cycle_momentum:
-                computed_momentum = self.anneal_func(self.b_momentum,self.m_momentum,down_step_num/self.step_size_down)
-                try:     K.set_value(self.model.optimizer.momentum, computed_momentum)
-                except:  K.set_value(self.model.optimizer.beta_1, computed_momentum)
+                computed_momentum = self.anneal_func(
+                    self.b_momentum, self.m_momentum, down_step_num/self.step_size_down)
+                try:
+                    K.set_value(self.model.optimizer.momentum,
+                                computed_momentum)
+                except:
+                    K.set_value(self.model.optimizer.beta_1, computed_momentum)
 
-    def on_train_begin(self, logs=None)->None:
+    def on_train_begin(self, logs=None) -> None:
         # Set initial learning rate & momentum values
         K.set_value(self.model.optimizer.lr, self.initial_lr)
         if self.cycle_momentum:
-            try:    K.set_value(self.model.optimizer.momentum, self.momentum)
-            except: K.set_value(self.model.optimizer.beta_1, self.momentum)
+            try:
+                K.set_value(self.model.optimizer.momentum, self.momentum)
+            except:
+                K.set_value(self.model.optimizer.beta_1, self.momentum)
 
-    def on_train_batch_end(self, batch, logs=None)->None:
+    def on_train_batch_end(self, batch, logs=None) -> None:
         # Grab the current learning rate & momentum
         lr = float(K.get_value(self.model.optimizer.lr))
-        try:     mom = float(K.get_value(self.model.optimizer.momentum))
-        except:  mom = float(K.get_value(self.model.optimizer.beta_1))
+        try:
+            mom = float(K.get_value(self.model.optimizer.momentum))
+        except:
+            mom = float(K.get_value(self.model.optimizer.beta_1))
         # Append to the list
         self.track_lr.append(lr)
         self.track_mom.append(mom)
@@ -194,12 +208,15 @@ class OneCycleLr(keras.callbacks.Callback):
         # increment step_num
         self.step_num += 1
 
-    def plot_lrs_moms(self, axes=None)->None:
-        if axes == None: _ , (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+    def plot_lrs_moms(self, axes=None) -> None:
+        if axes == None:
+            _, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
         else:
-            try:     ax1, ax2 = axes
-            except:  ax1, ax2 = axes[0], axes[1]
+            try:
+                ax1, ax2 = axes
+            except:
+                ax1, ax2 = axes[0], axes[1]
         ax1.plot(self.track_lr)
         ax1.set_title("Learning Rate / steps_per_epoch")
         ax2.plot(self.track_mom)
-        ax2.set_title("Momentum (or beta_1) / steps_per_epochs");
+        ax2.set_title("Momentum (or beta_1) / steps_per_epochs")
