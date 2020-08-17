@@ -74,11 +74,38 @@ lr_find.plot_lrs(skip_end=0, suggestion=True)
 To check the usage of `lr_find` & `OneCycleLR` check this [notebook](https://github.com/benihime91/tensorflow-on-steroids/blob/master/nbs/one_cycle_%26_lr_finder_tf.ipynb).  
 This notebook contains an end-to-end example using the `cats-vs-dogs` dataset from `Kaggle`** 
 
-### <ins>Extra</ins> <ins>perks</ins> :
-Example on how to use `Albumentations` for `image augmentation` with `Tensorflow's` `tf.data` API  
-* Check this [notebook](https://github.com/benihime91/tensorflow-on-steroids/blob/master/nbs/albumentations_with_tensorflow.ipynb).  
-* Google Collab Notebook [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/albumentations-team/albumentations_examples/blob/colab/tensorflow-example.ipynb).  
-
-
-There are some issues though with this implementation. Please check [this](https://github.com/albumentations-team/albumentations/issues/669#issuecomment-664422245).
-Tried my best to showcase the examples where this is gonna work and not work.
+## References & Citations:
+```
+@misc{smith2015cyclical,
+    title={Cyclical Learning Rates for Training Neural Networks},
+    author={Leslie N. Smith},
+    year={2015},
+    eprint={1506.01186},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
+}
+```
+```
+@misc{howard2018fastai,
+  title={fastai},
+  author={Howard, Jeremy and others},
+  year={2018},
+  publisher={GitHub},
+  howpublished={\url{https://github.com/fastai/fastai}},
+}
+```
+```
+@incollection{NEURIPS2019_9015,
+title = {PyTorch: An Imperative Style, High-Performance Deep Learning Library},
+author = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
+booktitle = {Advances in Neural Information Processing Systems 32},
+editor = {H. Wallach and H. Larochelle and A. Beygelzimer and F. d\textquotesingle Alch\'{e}-Buc and E. Fox and R. Garnett},
+pages = {8024--8035},
+year = {2019},
+publisher = {Curran Associates, Inc.},
+url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
+}
+```
+```
+https://github.com/bckenstler/CLR
+```
