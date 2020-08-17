@@ -11,7 +11,7 @@
 
 2. `Learning Rate Finder` for `tf.keras`
    - Main idea taken from the implementation of `lr_find` by [Fast.ai](https://docs.fast.ai/basic_train.html#lr_find)
-    - Ideas taken from **[How Do You Find A Good Learning Rate](https://sgugger.github.io/how-do-you-find-a-good-learning-rate.html).
+   - Ideas taken from [How Do You Find A Good Learning Rate](https://sgugger.github.io/how-do-you-find-a-good-learning-rate.html).
    - [My Version](https://github.com/benihime91/tensorflow-keras-nbs/blob/master/lr_find.py). 
 
 > To check the usage of the above mentioned functionalities check this [notebook](https://github.com/benihime91/tensorflow-keras-nbs/blob/master/one_cycle_%26_lr_finder_tf.ipynb).  
