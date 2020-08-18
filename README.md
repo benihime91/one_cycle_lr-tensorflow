@@ -5,6 +5,12 @@
 1. Replicated `OneCycleLR` learning rate scheduler from `PyTorch` into a `tf.keras` `callback` .   
    - [Original implementation by pytorch](https://pytorch.org/docs/stable/_modules/torch/optim/lr_scheduler.html#CyclicLR)
    - [My Version](https://github.com/benihime91/tensorflow-on-steroids/blob/master/one_cycle.py).
+   
+**Usage:**
+```bash
+git clone https://github.com/benihime91/tensorflow-on-steroids.git
+cd tensorflow-on-steroids
+```
 
 **Example :** 
 ```python
