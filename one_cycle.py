@@ -240,6 +240,6 @@ class OneCycleLr(keras.callbacks.Callback):
             except:
                 ax1, ax2 = axes[0], axes[1]
         ax1.plot(self.track_lr)
-        ax1.set_title("Learning Rate / steps_per_epoch")
+        ax1.set_title("Learning Rate vs Steps")
         ax2.plot(self.track_mom)
-        ax2.set_title("Momentum (or beta_1) / steps_per_epochs")
+        ax2.set_title("Momentum (or beta_1) vs Steps")
