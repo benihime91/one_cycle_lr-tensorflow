@@ -8,8 +8,8 @@
    
 **Usage:**
 ```bash
-git clone https://github.com/benihime91/tensorflow-on-steroids.git
-cd tensorflow-on-steroids
+git clone https://github.com/benihime91/one_cycle_lr-tensorflow.git
+cd one_cycle_lr-tensorflow
 ```
 
 **Example :** 
@@ -90,8 +90,8 @@ This notebook contains an end-to-end example using the `cats-vs-dogs` dataset fr
     archivePrefix={arXiv},
     primaryClass={cs.CV}
 }
-```
-```
+
+
 @misc{howard2018fastai,
   title={fastai},
   author={Howard, Jeremy and others},
@@ -99,8 +99,8 @@ This notebook contains an end-to-end example using the `cats-vs-dogs` dataset fr
   publisher={GitHub},
   howpublished={\url{https://github.com/fastai/fastai}},
 }
-```
-```
+
+
 @incollection{NEURIPS2019_9015,
 title = {PyTorch: An Imperative Style, High-Performance Deep Learning Library},
 author = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
@@ -111,7 +111,4 @@ year = {2019},
 publisher = {Curran Associates, Inc.},
 url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
 }
-```
-```
-https://github.com/bckenstler/CLR
 ```
