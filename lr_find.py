@@ -11,7 +11,6 @@
 
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,25 +18,27 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+# --------------------------------------------------------------------------------
 
+import os
+import tempfile
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 import tensorflow as tf
 from tensorflow import keras
 from tqdm.auto import tqdm
-import tempfile
-import matplotlib.pyplot as plt
-import os
-import numpy as np
-
 
 K = keras.backend
 
 
 class Scheduler:
     def __init__(self, vals, n_iter: int) -> None:
-        "Used to \"step\" from start,end (`vals`) over `n_iter` s on a schedule defined by `func`"
-        self.start, self.end = (vals[0], vals[1]) if isinstance(
-            vals, tuple) else (vals, 0)
+        'Used to "step" from start,end (`vals`) over `n_iter` s on a schedule defined by `func`'
+        self.start, self.end = (
+            (vals[0], vals[1]) if isinstance(vals, tuple) else (vals, 0)
+        )
         self.n_iter = max(1, n_iter)
         self.func = self._aannealing_exp
         self.n = 0
@@ -45,13 +46,14 @@ class Scheduler:
     @staticmethod
     def _aannealing_exp(start: float, end: float, pct: float) -> float:
         "Exponentially anneal from `start` to `end` as pct goes from 0.0 to 1.0."
-        return start * (end/start) ** pct
+        return start * (end / start) ** pct
 
-    def restart(self) -> None:  self.n = 0
+    def restart(self) -> None:
+        self.n = 0
 
     def step(self) -> float:
         self.n += 1
-        return self.func(self.start, self.end, self.n/self.n_iter)
+        return self.func(self.start, self.end, self.n / self.n_iter)
 
     @property
     def is_done(self) -> bool:
@@ -80,9 +82,12 @@ class LrFinder:
         >>> lr_finder.plot_lrs() # to inspect the loss-learning rate graph
     """
 
-    def __init__(self, model: tf.keras.Model,
-                 optimizer: tf.keras.optimizers.Optimizer,
-                 loss_fn: tf.keras.losses.Loss) -> None:
+    def __init__(
+        self,
+        model: tf.keras.Model,
+        optimizer: tf.keras.optimizers.Optimizer,
+        loss_fn: tf.keras.losses.Loss,
+    ) -> None:
 
         self.lrs = []
         self.losses = []
@@ -104,12 +109,14 @@ class LrFinder:
         grads = tape.gradient(loss, self.model.trainable_weights)
         return loss, grads
 
-    def range_test(self,
-                   trn_ds: tf.data.Dataset,
-                   start_lr: float = 1e-7,
-                   end_lr: float = 10,
-                   num_iter: int = 100,
-                   beta=0.98) -> None:
+    def range_test(
+        self,
+        trn_ds: tf.data.Dataset,
+        start_lr: float = 1e-7,
+        end_lr: float = 10,
+        num_iter: int = 100,
+        beta=0.98,
+    ) -> None:
         """
         Explore lr from `start_lr` to `end_lr` over `num_it` s in `model`.
 
@@ -128,7 +135,7 @@ class LrFinder:
         self.model.save_weights(self.weightsFile)
         # start scheduler
         sched = Scheduler((start_lr, end_lr), num_iter)
-        avg_loss, best_loss, = 0., 0.
+        avg_loss, best_loss, = 0.0, 0.0
         # set the startig lr
         K.set_value(self.optimizer.lr, sched.start)
 
@@ -142,20 +149,21 @@ class LrFinder:
             self.iteration += 1
             loss, grads = self.trn_step(xb, yb)
             # compute smoothed loss
-            avg_loss = beta * avg_loss + (1-beta) * loss
-            smoothed_loss = avg_loss / (1 - beta**self.iteration)
+            avg_loss = beta * avg_loss + (1 - beta) * loss
+            smoothed_loss = avg_loss / (1 - beta ** self.iteration)
             # record best loss
             if self.iteration == 1 or smoothed_loss < best_loss:
                 best_loss = smoothed_loss
             # stop if loss is exploding
-            if sched.is_done or (smoothed_loss > 4 * best_loss or np.isnan(smoothed_loss)):
+            if sched.is_done or (
+                smoothed_loss > 4 * best_loss or np.isnan(smoothed_loss)
+            ):
                 break
             # append losses and lrs
             self.losses.append(smoothed_loss)
             self.lrs.append(K.get_value(self.optimizer.lr))
             # update weights
-            self.optimizer.apply_gradients(
-                zip(grads, self.model.trainable_weights))
+            self.optimizer.apply_gradients(zip(grads, self.model.trainable_weights))
             # update lr
             K.set_value(self.optimizer.lr, sched.step())
         sched.restart()
@@ -165,18 +173,19 @@ class LrFinder:
         "Cleanup model weights disturbed during LRFinder exploration."
         self.model.load_weights(self.weightsFile)
         K.set_value(self.optimizer.lr, self.init_lr)
-        print(
-            'LR Finder is complete, type {LrFinder}.plot_lrs() to see the graph.')
+        print("LR Finder is complete, type {LrFinder}.plot_lrs() to see the graph.")
 
     @staticmethod
     def _split_list(vals, skip_start: int, skip_end: int) -> list:
         return vals[skip_start:-skip_end] if skip_end > 0 else vals[skip_start:]
 
-    def plot_lrs(self,
-                 skip_start: int = 10,
-                 skip_end: int = 5,
-                 suggestion: bool = False,
-                 show_grid: bool = False) -> None:
+    def plot_lrs(
+        self,
+        skip_start: int = 10,
+        skip_end: int = 5,
+        suggestion: bool = False,
+        show_grid: bool = False,
+    ) -> None:
         """
         Plot learning rate and losses, trimmed between `skip_start` and `skip_end`.
         Optionally plot and return min gradient
@@ -187,20 +196,20 @@ class LrFinder:
         ax.plot(lrs, losses)
         ax.set_ylabel("Loss")
         ax.set_xlabel("Learning Rate")
-        ax.set_xscale('log')
+        ax.set_xscale("log")
         if show_grid:
             plt.grid(True, which="both", ls="-")
-        ax.xaxis.set_major_formatter(plt.FormatStrFormatter('%.0e'))
+        ax.xaxis.set_major_formatter(plt.FormatStrFormatter("%.0e"))
         if suggestion:
             try:
                 mg = (np.gradient(np.array(losses))).argmin()
             except:
                 print(
-                    "Failed to compute the gradients, there might not be enough points.")
+                    "Failed to compute the gradients, there might not be enough points."
+                )
                 return
             print(f"Min numerical gradient: {lrs[mg]:.2E}")
-            ax.plot(lrs[mg], losses[mg], markersize=10,
-                    marker='o', color='red')
+            ax.plot(lrs[mg], losses[mg], markersize=10, marker="o", color="red")
             self.min_grad_lr = lrs[mg]
             ml = np.argmin(losses)
             print(f"Min loss divided by 10: {lrs[ml]/10:.2E}")
