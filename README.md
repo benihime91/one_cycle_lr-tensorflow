@@ -164,7 +164,7 @@
       - **start_lr** (`float, optional`): the starting learning rate for the range test.
                 Default:1e-07.
       - **end_lr** (`float, optional`): the maximum learning rate to test. Default: 10.
-      - **num_iter** (`int, optional`): the number of s over which the test
+      - **num_iter** (`int, optional`): the number of steps over which the test
                 occurs. Default: 100.
       - **beta** (`float, optional`): the loss smoothing factor within the [0, 1]
                 interval. The loss is smoothed using exponential smoothing.
