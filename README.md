@@ -98,9 +98,9 @@
    
    - Note also that the `total number of steps` in the cycle can be determined in one of two ways (listed in order of precedence):
 
-      1. A value for `total_steps` is explicitly provided.
+      - A value for `total_steps` is explicitly provided.
 
-      2. A number of `epochs (epochs)` and a number of `steps per epoch (steps_per_epoch)` are provided. In this case, the number of `total steps` is inferred by `total_steps = epochs * steps_per_epoch`.
+      - A number of `epochs (epochs)` and a number of `steps per epoch (steps_per_epoch)` are provided. In this case, the number of `total steps` is inferred by `total_steps = epochs * steps_per_epoch`.
 
       You must either provide a value for total_steps or provide a value for both epochs and steps_per_epoch.
    
@@ -172,34 +172,34 @@
 
 
 ## References & Citations:
-```
-@misc{smith2015cyclical,
-    title={Cyclical Learning Rates for Training Neural Networks},
-    author={Leslie N. Smith},
-    year={2015},
-    eprint={1506.01186},
-    archivePrefix={arXiv},
-    primaryClass={cs.CV}
-}
-
-
-@misc{howard2018fastai,
-  title={fastai},
-  author={Howard, Jeremy and others},
-  year={2018},
-  publisher={GitHub},
-  howpublished={\url{https://github.com/fastai/fastai}},
-}
-
-
-@incollection{NEURIPS2019_9015,
-title = {PyTorch: An Imperative Style, High-Performance Deep Learning Library},
-author = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
-booktitle = {Advances in Neural Information Processing Systems 32},
-editor = {H. Wallach and H. Larochelle and A. Beygelzimer and F. d\textquotesingle Alch\'{e}-Buc and E. Fox and R. Garnett},
-pages = {8024--8035},
-year = {2019},
-publisher = {Curran Associates, Inc.},
-url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
-}
-```
+   ```
+   @misc{smith2015cyclical,
+       title={Cyclical Learning Rates for Training Neural Networks},
+       author={Leslie N. Smith},
+       year={2015},
+       eprint={1506.01186},
+       archivePrefix={arXiv},
+       primaryClass={cs.CV}
+   }
+   ```
+   ```
+   @misc{howard2018fastai,
+     title={fastai},
+     author={Howard, Jeremy and others},
+     year={2018},
+     publisher={GitHub},
+     howpublished={\url{https://github.com/fastai/fastai}},
+   }
+   ```
+   ```
+   @incollection{NEURIPS2019_9015,
+   title = {PyTorch: An Imperative Style, High-Performance Deep Learning Library},
+   author = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
+   booktitle = {Advances in Neural Information Processing Systems 32},
+   editor = {H. Wallach and H. Larochelle and A. Beygelzimer and F. d\textquotesingle Alch\'{e}-Buc and E. Fox and R. Garnett},
+   pages = {8024--8035},
+   year = {2019},
+   publisher = {Curran Associates, Inc.},
+   url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
+   }
+  ```
