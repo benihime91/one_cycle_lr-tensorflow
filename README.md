@@ -2,11 +2,11 @@
 
 ## Installation:
 
-   Ensure that `python > 3.6` is installed.
+   Ensure that `python >= 3.6` is installed.
    ```bash
    $ git clone https://github.com/benihime91/one_cycle_lr-tensorflow.git
-   $ pip install -r requirements.txt
    $ cd one_cycle_lr-tensorflow
+   $ pip install -r requirements.txt
    ```
 ## Demo:
 [JupyterNotebook](https://github.com/benihime91/tensorflow-on-steroids/blob/master/nbs/one_cycle_%26_lr_finder_tf.ipynb).
