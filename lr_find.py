@@ -1,4 +1,3 @@
-import os
 import tempfile
 
 import matplotlib.pyplot as plt
@@ -60,12 +59,11 @@ class LrFinder:
         >>> lr_finder.plot_lrs() # to inspect the loss-learning rate graph
     """
 
-    def __init__(
-        self,
-        model: tf.keras.Model,
-        optimizer: tf.keras.optimizers.Optimizer,
-        loss_fn: tf.keras.losses.Loss,
-    ) -> None:
+    def __init__(self,
+                 model: tf.keras.Model,
+                 optimizer: tf.keras.optimizers.Optimizer,
+                 loss_fn: tf.keras.losses.Loss,
+                 ) -> None:
 
         self.lrs = []
         self.losses = []
@@ -82,19 +80,18 @@ class LrFinder:
         """performs 1 trainig step"""
         with tf.GradientTape() as tape:
             logits = self.model(xb, training=True)
-            loss = self.loss_fn(yb, logits)
-            loss += sum(self.model.losses)
-        grads = tape.gradient(loss, self.model.trainable_weights)
+            main_loss = tf.reduce_mean(self.loss_fn(yb, logits))
+            loss = tf.add_n([main_loss] + self.model.losses)
+        grads = tape.gradient(loss, self.model.trainable_variables)
         return loss, grads
 
-    def range_test(
-        self,
-        trn_ds: tf.data.Dataset,
-        start_lr: float = 1e-7,
-        end_lr: float = 10,
-        num_iter: int = 100,
-        beta=0.98,
-    ) -> None:
+    def range_test(self,
+                   trn_ds: tf.data.Dataset,
+                   start_lr: float = 1e-7,
+                   end_lr: float = 10,
+                   num_iter: int = 100,
+                   beta=0.98,
+                   ) -> None:
         """
         Explore lr from `start_lr` to `end_lr` over `num_it` s in `model`.
 
@@ -117,33 +114,44 @@ class LrFinder:
         # set the startig lr
         K.set_value(self.optimizer.lr, sched.start)
 
-        try:
-            total = tf.data.experimental.cardinality(trn_ds).numpy()
-        except:
-            total = len(trn_ds)
-        bar = tqdm(trn_ds, total=total)
+        print(f"Finding best initial lr over {num_iter} steps")
+        # initialize tqdm bar
+        bar = tqdm(iterable=range(num_iter))
+
         # iterate over the batches
-        for (xb, yb) in bar:
+        for (xb, yb) in trn_ds:
             self.iteration += 1
             loss, grads = self.trn_step(xb, yb)
             # compute smoothed loss
             avg_loss = beta * avg_loss + (1 - beta) * loss
             smoothed_loss = avg_loss / (1 - beta ** self.iteration)
+
             # record best loss
             if self.iteration == 1 or smoothed_loss < best_loss:
                 best_loss = smoothed_loss
+
             # stop if loss is exploding
             if sched.is_done or (
                 smoothed_loss > 4 * best_loss or np.isnan(smoothed_loss)
             ):
                 break
+
             # append losses and lrs
             self.losses.append(smoothed_loss)
             self.lrs.append(K.get_value(self.optimizer.lr))
+
             # update weights
-            self.optimizer.apply_gradients(zip(grads, self.model.trainable_weights))
+            self.optimizer.apply_gradients(
+                zip(grads, self.model.trainable_variables))
+
             # update lr
             K.set_value(self.optimizer.lr, sched.step())
+
+            # update tqdm
+            bar.update(1)
+
+        # clean-up
+        bar.close()
         sched.restart()
         self._print_prompt()
 
@@ -151,19 +159,19 @@ class LrFinder:
         "Cleanup model weights disturbed during LRFinder exploration."
         self.model.load_weights(self.weightsFile)
         K.set_value(self.optimizer.lr, self.init_lr)
-        print("LR Finder is complete, type {LrFinder}.plot_lrs() to see the graph.")
+        print(
+            "LR Finder is complete, type {LrFinder}.plot_lrs() to see the graph.")
 
     @staticmethod
     def _split_list(vals, skip_start: int, skip_end: int) -> list:
         return vals[skip_start:-skip_end] if skip_end > 0 else vals[skip_start:]
 
-    def plot_lrs(
-        self,
-        skip_start: int = 10,
-        skip_end: int = 5,
-        suggestion: bool = False,
-        show_grid: bool = False,
-    ) -> None:
+    def plot_lrs(self,
+                 skip_start: int = 10,
+                 skip_end: int = 5,
+                 suggestion: bool = False,
+                 show_grid: bool = False,
+                 ) -> None:
         """
         Plot learning rate and losses, trimmed between `skip_start` and `skip_end`.
         Optionally plot and return min gradient
@@ -187,7 +195,8 @@ class LrFinder:
                 )
                 return
             print(f"Min numerical gradient: {lrs[mg]:.2E}")
-            ax.plot(lrs[mg], losses[mg], markersize=10, marker="o", color="red")
+            ax.plot(lrs[mg], losses[mg], markersize=10,
+                    marker="o", color="red")
             self.min_grad_lr = lrs[mg]
             ml = np.argmin(losses)
             print(f"Min loss divided by 10: {lrs[ml]/10:.2E}")
