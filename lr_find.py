@@ -107,7 +107,10 @@ class LrFinder:
                 Default: 0.98.
         """
         # save original model weights
-        self.model.save_weights(self.weightsFile)
+        try:
+            self.model.save_weights(self.weightsFile)
+        except:
+            print("Unable to save initial weights, weights of model will change. Re-instantiate model to load previous weights ...")
         # start scheduler
         sched = Scheduler((start_lr, end_lr), num_iter)
         avg_loss, best_loss, = 0.0, 0.0
@@ -157,7 +160,11 @@ class LrFinder:
 
     def _print_prompt(self) -> None:
         "Cleanup model weights disturbed during LRFinder exploration."
-        self.model.load_weights(self.weightsFile)
+        try:
+            self.model.load_weights(self.weightsFile)
+        except:
+            print(
+                "Unable to load inital weights. Re-instantiate model to load previous weights ...")
         K.set_value(self.optimizer.lr, self.init_lr)
         print(
             "LR Finder is complete, type {LrFinder}.plot_lrs() to see the graph.")
