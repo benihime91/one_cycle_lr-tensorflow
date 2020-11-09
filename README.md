@@ -11,6 +11,9 @@
 ## Demo:
 [JupyterNotebook](https://github.com/benihime91/tensorflow-on-steroids/blob/master/nbs/one_cycle_%26_lr_finder_tf.ipynb).
 
+## Important :
+LrFinder does not support TPU training .
+
 ## Contents:  
 
 1. **OneCycleLR learning rate scheduler** 
